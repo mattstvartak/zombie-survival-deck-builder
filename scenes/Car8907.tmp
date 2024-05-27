@@ -1,39 +1,51 @@
-[gd_scene load_steps=9 format=3 uid="uid://cc4gmyrjllmlf"]
+[gd_scene load_steps=11 format=3 uid="uid://cc4gmyrjllmlf"]
 
-[ext_resource type="Texture2D" uid="uid://dadxuji76ajje" path="res://assets/sprites/card-blank.png" id="1_vn8to"]
-[ext_resource type="FontFile" uid="uid://dnh5oycnxbhl4" path="res://assets/fonts/alagard.ttf" id="2_obw12"]
-[ext_resource type="Texture2D" uid="uid://5f8kubfxyw7v" path="res://assets/sprites/1bit-kenney.png" id="3_7oh0m"]
+[ext_resource type="Texture2D" uid="uid://dadxuji76ajje" path="res://assets/sprites/card-blank.png" id="1_mspq6"]
+[ext_resource type="Script" path="res://scripts/card.gd" id="1_wohs5"]
+[ext_resource type="FontFile" uid="uid://dnh5oycnxbhl4" path="res://assets/fonts/alagard.ttf" id="2_jx710"]
+[ext_resource type="Texture2D" uid="uid://5f8kubfxyw7v" path="res://assets/sprites/1bit-kenney.png" id="3_hl1xe"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_g2elg"]
-font = ExtResource("2_obw12")
+font = ExtResource("2_jx710")
 font_size = 28
 font_color = Color(0.478431, 0.266667, 0.290196, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_k6lrw"]
-font = ExtResource("2_obw12")
+font = ExtResource("2_jx710")
 font_color = Color(0.478431, 0.266667, 0.290196, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_o4d66"]
-font = ExtResource("2_obw12")
+font = ExtResource("2_jx710")
 font_size = 32
 font_color = Color(0.478431, 0.266667, 0.290196, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_xk8ev"]
-font = ExtResource("2_obw12")
+font = ExtResource("2_jx710")
 font_size = 32
 font_color = Color(0.478431, 0.266667, 0.290196, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_cbwnj"]
-font = ExtResource("2_obw12")
+font = ExtResource("2_jx710")
 font_size = 32
 font_color = Color(0.478431, 0.266667, 0.290196, 1)
 
-[node name="UnitCard" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x8n6y"]
+size = Vector2(333.333, 478.788)
 
-[node name="CardBack" type="Sprite2D" parent="."]
-texture = ExtResource("1_vn8to")
+[node name="Card" type="StaticBody2D"]
+light_mask = 2
+visibility_layer = 2
+z_index = 1
+z_as_relative = false
+scale = Vector2(0.33, 0.33)
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_wohs5")
 
-[node name="Title" type="Label" parent="."]
+[node name="CardFront" type="Sprite2D" parent="."]
+texture = ExtResource("1_mspq6")
+
+[node name="Title" type="Label" parent="CardFront"]
 offset_left = -143.0
 offset_top = 3.0
 offset_right = 53.0
@@ -41,7 +53,7 @@ offset_bottom = 30.0
 text = "Survivor Scout"
 label_settings = SubResource("LabelSettings_g2elg")
 
-[node name="Description" type="Label" parent="."]
+[node name="Description" type="Label" parent="CardFront"]
 offset_left = -143.0
 offset_top = 39.0
 offset_right = 143.0
@@ -50,7 +62,7 @@ text = "Searches the area and alerts survivors of approaching threats."
 label_settings = SubResource("LabelSettings_k6lrw")
 autowrap_mode = 3
 
-[node name="HP" type="Label" parent="."]
+[node name="HP" type="Label" parent="CardFront"]
 offset_left = 108.0
 offset_top = 180.0
 offset_right = 144.0
@@ -61,14 +73,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="HP_Icon" type="Sprite2D" parent="HP"]
+[node name="HP_Icon" type="Sprite2D" parent="CardFront/HP"]
 position = Vector2(-13, 13)
 scale = Vector2(4, 4)
-texture = ExtResource("3_7oh0m")
+texture = ExtResource("3_hl1xe")
 region_enabled = true
 region_rect = Rect2(627, 164, 10, 8)
 
-[node name="DMG" type="Label" parent="."]
+[node name="DMG" type="Label" parent="CardFront"]
 offset_left = -94.0
 offset_top = 181.0
 offset_right = -58.0
@@ -79,15 +91,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Attack_Icon" type="Sprite2D" parent="DMG"]
+[node name="Attack_Icon" type="Sprite2D" parent="CardFront/DMG"]
 self_modulate = Color(0.235294, 0.67451, 0.843137, 1)
 position = Vector2(-27, 13)
 scale = Vector2(3, 3)
-texture = ExtResource("3_7oh0m")
+texture = ExtResource("3_hl1xe")
 region_enabled = true
 region_rect = Rect2(512, 128, 16, 16)
 
-[node name="Cooldown" type="Label" parent="."]
+[node name="Cooldown" type="Label" parent="CardFront"]
 offset_top = 180.0
 offset_right = 36.0
 offset_bottom = 210.0
@@ -97,24 +109,36 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Cooldown_Icon" type="Sprite2D" parent="Cooldown"]
+[node name="Cooldown_Icon" type="Sprite2D" parent="CardFront/Cooldown"]
 position = Vector2(-21, 13)
 scale = Vector2(3.625, 3.625)
-texture = ExtResource("3_7oh0m")
+texture = ExtResource("3_hl1xe")
 region_enabled = true
 region_rect = Rect2(656, 64, 16, 16)
 
-[node name="Cost_1" type="Sprite2D" parent="."]
+[node name="Cost_1" type="Sprite2D" parent="CardFront"]
 position = Vector2(79, -196)
 scale = Vector2(3, 3)
-texture = ExtResource("3_7oh0m")
+texture = ExtResource("3_hl1xe")
 region_enabled = true
 region_rect = Rect2(672, 160, 16, 16)
 
-[node name="Cost_2" type="Sprite2D" parent="."]
+[node name="Cost_2" type="Sprite2D" parent="CardFront"]
 self_modulate = Color(0.235294, 0.67451, 0.843137, 1)
 position = Vector2(125, -196)
 scale = Vector2(3, 3)
-texture = ExtResource("3_7oh0m")
+texture = ExtResource("3_hl1xe")
 region_enabled = true
 region_rect = Rect2(624, 64, 16, 16)
+
+[node name="CardBack" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("1_mspq6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3.6124e-07)
+shape = SubResource("RectangleShape2D_x8n6y")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
