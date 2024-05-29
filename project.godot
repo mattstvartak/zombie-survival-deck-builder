@@ -13,14 +13,16 @@ config_version=5
 config/name="Zombie Survival Deck Builder"
 run/main_scene="res://scenes/Main.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://scripts/icon.svg"
 
 [autoload]
 
 CardDictionary="*res://scripts/singletons/CardDictionary.gd"
 GameController="*res://scripts/singletons/GameController.gd"
+LevelController="*res://scripts/singletons/LevelController.gd"
 AnimationController="*res://scripts/singletons/AnimationController.gd"
 PlayerController="*res://scripts/singletons/PlayerController.gd"
+ZombieContainer="*res://scenes/ZombieContainer.tscn"
 
 [display]
 

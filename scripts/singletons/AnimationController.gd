@@ -6,7 +6,7 @@ func move_cards(location: String, speed: float, flip: bool = false) -> void:
 	for i in active_hand.size():
 		var card: Node2D = active_hand[i]
 		var collider: ReferenceRect = card.get_node("Collider")
-		var loc: Node2D = get_tree().root.get_node("window/loc_" + location + "/" + str(i))
+		var loc: Node2D = get_tree().root.get_node("Main/loc_" + location + "/" + str(i))
 		var tween = get_tree().create_tween()
 		collider.mouse_filter = collider.MOUSE_FILTER_IGNORE
 		card.get_node("CardBack").visible = false
@@ -38,7 +38,7 @@ func card_hover(direction, card):
 
 func card_select(card):
 	var tween = get_tree().create_tween()
-	var loc: Node2D = get_tree().root.get_node("window/loc_selected/0")
+	var loc: Node2D = get_tree().root.get_node("Main/loc_selected/0")
 	tween.parallel().tween_property(card, "scale", loc.scale, 0.1)
 	tween.parallel().tween_property(card, "position", Vector2(loc.global_position.x,loc.global_position.y), 0.1)
 	await tween.finished

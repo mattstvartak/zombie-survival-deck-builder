@@ -3,7 +3,71 @@ extends Node2D
 enum ZombieType { NORMAL, FAST, TANK }
 
 var zombie_stats = {
-	ZombieType.NORMAL: { "health": 3, "attackDamage": 1, "movementSpeed": "Slow" },
-	ZombieType.FAST: { "health": 2, "attackDamage": 1, "movementSpeed": "Fast" },
-	ZombieType.TANK: { "health": 8, "attackDamage": 2, "movementSpeed": "Slow" }
+	ZombieType.NORMAL: { "health": 3, "attackDamage": 1, "movementSpeed": 32 },
+	ZombieType.FAST: { "health": 2, "attackDamage": 1, "movementSpeed": 48 },
+	ZombieType.TANK: { "health": 8, "attackDamage": 2, "movementSpeed": 16 }
 }
+
+var health: int
+var speed: String
+var attack: int
+var navigation_path = []
+var target_position = Vector2i()
+var active_turn = 0  # Set this to 1 to make the zombie move
+var current_grid_position: Vector2i
+@onready var Level = get_node("/root/Level")
+# Timer for movement
+#onready var movement_timer = $MovementTimer
+
+func _ready():
+	var spawn = LevelController.astargrid.get_point_position(current_grid_position)
+	var target = get_nearest_threat()
+	var path_taken = LevelController.navigate_to(current_grid_position, target)
+	self.position = Vector2i(spawn.x, spawn.y)
+	move_to(path_taken)
+	
+	#movement_timer.connect("timeout", self, "_on_MovementTimer_timeout")
+
+func get_threat_positions() -> Array[Vector2i]:
+	return []  # Example threat positions
+	
+func get_nearest_threat() -> Vector2i:
+	var threats: Array[Vector2i] = get_threat_positions()
+	var cur_pos: Vector2 = current_grid_position
+	threats.append_array(LevelController.stronghold_positions)
+	var nearest_position = threats[0]
+	var nearest_distance = cur_pos.distance_to(nearest_position)
+	
+	for threat in threats:
+		#print("Threat", threat)
+		var distance = cur_pos.distance_to(threat)
+		#print("Distance:",distance)
+		if distance < nearest_distance:
+			nearest_position = threat
+			nearest_distance = distance
+	return nearest_position
+	
+func move_to(path_taken):
+	print(path_taken)
+	for cell in path_taken:
+		print(cell)
+		var target = LevelController.astargrid.get_point_position(cell)
+		self.position = target
+		await get_tree().create_timer(.2).timeout
+#
+#func _on_MovementTimer_timeout():
+	#if active_turn == 1 and navigation_path.size() > 0:
+		#var next_position = get_parent().astar_grid.map_to_world(navigation_path.pop_front())
+		#position = next_position
+		#if navigation_path.size() == 0:
+			#movement_timer.stop()
+			#active_turn = 0
+			#get_parent().on_zombie_finished(self)
+		#else:
+			#movement_timer.start(0.5)
+
+## Called when a zombie finishes its movement
+#func on_zombie_finished(zombie):
+	#zombie_queue.pop_front()
+	#if zombie_queue.size() > 0:
+		#zombie_queue[0].start_movement()

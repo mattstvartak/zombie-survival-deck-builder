@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cvt1hs00ubgwt"]
+[gd_scene load_steps=9 format=3 uid="uid://rbl76uwc4na1"]
 
 [ext_resource type="Texture2D" uid="uid://dadxuji76ajje" path="res://assets/sprites/card-blank.png" id="1_mxde1"]
 [ext_resource type="FontFile" uid="uid://dnh5oycnxbhl4" path="res://assets/fonts/alagard.ttf" id="2_8lkap"]
