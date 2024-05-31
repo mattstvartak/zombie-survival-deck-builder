@@ -17,6 +17,7 @@ var params = PhysicsPointQueryParameters2D.new()
 @onready var description_node: Label = $CardFront/Description
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	self.visible = true
 	title_node.text = title
 	description_node.text = description
 	pass # Replace with function body.

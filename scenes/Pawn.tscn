@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvqdxwhuutcn6"]
+
+[ext_resource type="Script" path="res://scripts/pawn.gd" id="1_2qpr0"]
+[ext_resource type="Texture2D" uid="uid://5f8kubfxyw7v" path="res://assets/sprites/1bit-kenney.png" id="2_ujt8n"]
+
+[node name="Pawn" type="Node2D"]
+script = ExtResource("1_2qpr0")
+
+[node name="MovementTimer" type="Timer" parent="."]
+
+[node name="Pawn" type="Sprite2D" parent="."]
+modulate = Color(0.13662, 0.372034, 1, 1)
+light_mask = 4
+visibility_layer = 4
+position = Vector2(7, 4)
+texture = ExtResource("2_ujt8n")
+region_enabled = true
+region_rect = Rect2(402, 1, 12, 14)

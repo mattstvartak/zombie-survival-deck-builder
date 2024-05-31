@@ -7,7 +7,7 @@ var Zombie = preload("res://scenes/Zombie.tscn")
 var active_deck: Array = CardDictionary.default_deck
 var active_hand: Array = []
 var turn_count: int = 0
-var active_turn: int = 0 # 0 Player, 1 AI
+var active_turn: bool = true # 0 Player, 1 AI
 var hand_size: int = 7
 var use_default_deck = true
 var zombie_queue = []
@@ -34,16 +34,21 @@ var waves = [
 	{ "NORMAL": 8, "FAST": 6, "TANK": 3 },
 	{ "NORMAL": 10, "FAST": 6, "TANK": 4 }
 ]
-	
+
+@onready var EndTurnButton = get_tree().root.get_node("Main/EndTurnButton")
+
+signal turn_change
+signal active_turn_change
+
 func _ready():
 	await LevelController.load_level()
-	await setup_deck()
-	
-	for zombie_type in waves[active_wave]:
-		for zombie in waves[active_wave][zombie_type]:
-			for i in range(zombie):
-				await spawn_zombie(i)
-	
+	setup_deck()
+	connect("turn_change", Callable(self, "_on_turn_change"))
+	connect("active_turn_change", Callable(self, "_on_active_turn_change"))
+	EndTurnButton.pressed.connect(self._on_end_turn_pressed)
+	spawn_zombies()
+	print(zombie_queue)
+
 func setup_deck():
 	if not use_default_deck:
 		create_deck()
@@ -134,9 +139,10 @@ func end_turn() -> void:
 	active_turn = 1
 		
 # Spawn a zombie on the outer edge and make it navigate
-func spawn_zombie(i: int):
+func spawn_zombie(i: int, type: String) -> void:
 	var new_zombie = Zombie.instantiate()
 	new_zombie.name = "Zombie_0" + str(i)
+	new_zombie.stats = new_zombie.zombie_stats[new_zombie.ZombieType.get(type)]
 	new_zombie.current_grid_position = get_random_edge_position()
 	ZombieContainer.add_child(new_zombie)
 	zombie_queue.append(new_zombie)
@@ -153,3 +159,16 @@ func get_random_edge_position():
 		edge_positions.append(Vector2i(0, y))
 		edge_positions.append(Vector2i(LevelController.tilemap_size.x - 1, y))
 	return edge_positions[randi() % edge_positions.size()]
+
+func spawn_zombies():
+	for zombie_type in waves[active_wave]:
+		for zombie in waves[active_wave][zombie_type]:
+			for i in range(zombie):
+				spawn_zombie(i, zombie_type)
+
+func _on_end_turn_pressed():
+	emit_signal("active_turn_change")	
+	
+func _on_active_turn_change():
+	active_turn = !active_turn		
+	turn_count+=1

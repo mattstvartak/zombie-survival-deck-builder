@@ -196,3 +196,14 @@ text = "Wave 1"
 label_settings = SubResource("LabelSettings_gwrkq")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="EndTurnButton" type="Button" parent="."]
+offset_left = 385.0
+offset_top = 96.0
+offset_right = 464.0
+offset_bottom = 115.0
+theme_override_fonts/font = ExtResource("3_5klbt")
+theme_override_font_sizes/font_size = 9
+shortcut_feedback = false
+shortcut_in_tooltip = false
+text = "END TURN"

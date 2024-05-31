@@ -1,18 +1,11 @@
 extends Node2D
 
-enum ZombieType { NORMAL, FAST, TANK }
-
-var zombie_stats = {
-	ZombieType.NORMAL: { "health": 3, "attackDamage": 1, "movementSpeed": 2 },
-	ZombieType.FAST: { "health": 2, "attackDamage": 1, "movementSpeed": 3 },
-	ZombieType.TANK: { "health": 8, "attackDamage": 2, "movementSpeed": 1 }
-}
-
 var stats
 var navigation_path = []
 var target_position = Vector2i()
 var active_turn = 0  # Set this to 1 to make the zombie move
 var current_grid_position: Vector2i
+@onready var Level = get_node("/root/Level")
 # Timer for movement
 #onready var movement_timer = $MovementTimer
 
