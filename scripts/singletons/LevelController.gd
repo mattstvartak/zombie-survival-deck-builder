@@ -36,9 +36,27 @@ func is_cell_stronghold(cell: Vector2i) -> bool:
 
 func navigate_to(a: Vector2i, b: Vector2i):
 	return astargrid.get_id_path(Vector2i(a.x,a.y), Vector2i(b.x,b.y))
-	
-func show_path():
-	var path_taken = astargrid.get_id_path(Vector2i(0,0), stronghold_positions[0])
-	for cell in path_taken:
-		Level.set_cell(main_layer, cell, main_source, path_taken_atlas_coords)
-		await get_tree().create_timer(.2).timeout
+
+#func _unhandled_input(event):
+	#print(event)
+	#if event is InputEventMouseMotion:
+		#
+func get_grid_position_from_mouse():
+	var mouse_position = get_viewport().get_mouse_position()
+	var grid_x = int(mouse_position.x / GameController.CELL_SIZE)
+	var grid_y = int(mouse_position.y / GameController.CELL_SIZE)
+	return Vector2(grid_x, grid_y)
+
+# Function to check if the mouse is hovering over a valid grid location
+func is_mouse_hovering_over_grid():
+	var grid_position = get_grid_position_from_mouse()
+	if astargrid.is_in_boundsv(grid_position):
+		return true
+	return false
+
+func _input(event):
+	if event is InputEventMouseMotion and GameController.active_turn:
+		if is_mouse_hovering_over_grid() and LevelController.selected_grid_position != get_grid_position_from_mouse():
+		print("Mouse is hovering over grid position: ", grid_position)
+	else:
+		print("Mouse is not hovering over a valid grid position.")

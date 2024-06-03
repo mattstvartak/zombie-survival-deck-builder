@@ -23,6 +23,7 @@ LevelController="*res://scripts/singletons/LevelController.gd"
 AnimationController="*res://scripts/singletons/AnimationController.gd"
 PlayerController="*res://scripts/singletons/PlayerController.gd"
 ZombieContainer="*res://scenes/ZombieContainer.tscn"
+PlayerContainer="*res://scenes/PlayerContainer.tscn"
 
 [display]
 

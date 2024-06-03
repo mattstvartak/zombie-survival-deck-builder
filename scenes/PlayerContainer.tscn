@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://dws4llyloo17k"]
+
+[node name="PlayerContainer" type="Node2D"]

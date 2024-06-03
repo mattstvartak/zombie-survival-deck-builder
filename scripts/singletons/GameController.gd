@@ -6,6 +6,8 @@ var Card = preload("res://scenes/Card.tscn")
 var Zombie = preload("res://scenes/Zombie.tscn")
 var active_deck: Array = CardDictionary.default_deck
 var active_hand: Array = []
+var active_space: Vector2i
+var selected_card: Dictionary
 var turn_count: int = 0
 var active_turn: bool = true # 0 Player, 1 AI
 var hand_size: int = 7
@@ -47,7 +49,6 @@ func _ready():
 	connect("active_turn_change", Callable(self, "_on_active_turn_change"))
 	EndTurnButton.pressed.connect(self._on_end_turn_pressed)
 	spawn_zombies()
-	print(zombie_queue)
 
 func setup_deck():
 	if not use_default_deck:
@@ -103,9 +104,10 @@ func create_deck() -> void:
 func draw_card(i) -> void:
 	var new_card = Card.instantiate()
 	new_card.name = "Card_0" + str(i)
-	new_card.title = active_deck[i]["name"]
-	new_card.description = CardDictionary[active_deck[i].type][active_deck[i].name].description
-	new_card.type = active_deck[i]["type"]
+	new_card.info = CardDictionary[active_deck[i].type][active_deck[i].name]
+	#new_card.title = active_deck[i]["name"]
+	#new_card.description = CardDictionary[active_deck[i].type][active_deck[i].name].description
+	new_card.info.type = active_deck[i]["type"]
 	# Add card to hand
 	active_hand.append(new_card)
 	active_deck.remove_at(i)
@@ -126,7 +128,7 @@ func fill_hand() -> void:
 		
 # Gets the stats for a specific card
 func lookup_card(card):
-	var cardName = card.name
+	var cardName = card.title
 	var cardType = card.type
 	
 	if cardName in CardDictionary[cardType]:

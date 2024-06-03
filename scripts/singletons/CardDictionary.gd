@@ -194,13 +194,14 @@ var buff: Dictionary = {
 var unit: Dictionary = {
 	"Survivor Scout": {
 		"name": "Survivor Scout",
-		"description": "Scouts the area and alerts survivors of approaching threats.",
+		"description": "Scouts the area and alerts survivors of approaching threats. Equipped with a handgun.",
 		"stats": {
 			"health": 1,
 			"attackDamage": 1,
 			"defense": 0,
 			"cooldown": 1,
-			"movementSpeed": 3
+			"movementSpeed": 3,
+			"attackRange": 5
 		},
 		"specialAbility": "Alert - Reveals incoming zombie waves in advance (Cooldown: 1 turn).",
 		"diceRequired": {
@@ -235,13 +236,14 @@ var unit: Dictionary = {
 	},
 	"Sniper Survivor": {
 		"name": "Sniper Survivor",
-		"description": "A skilled marksman providing long-range support against zombies.",
+		"description": "A skilled marksman providing long-range support against zombies. Equipped with a sniper rifle.",
 		"stats": {
 			"health": 3,
 			"attackDamage": 2,
 			"defense": 1,
 			"cooldown": 2,
-			"movementSpeed": 1
+			"movementSpeed": 1,
+			"attackRange": 10
 		},
 		"specialAbility": "Precision Shot - Deals double damage to a single target once per turn (Cooldown: 2 turns).",
 		"diceRequired": {
@@ -253,24 +255,22 @@ var unit: Dictionary = {
 			"Tier 2 (Veteran Sniper Survivor)": {
 				"bonuses": {
 					"health": 4,
-					"attackDamage": 3,
-					"cooldown": -1
+					"attackDamage": 3
 				},
 				"costs": {
-					"scrapMetal": 15,
-					"medicalSupplies": 5
+					"scrapMetal": 10,
+					"ammunition": 5
 				}
 			},
 			"Tier 3 (Elite Sniper Survivor)": {
 				"bonuses": {
 					"health": 5,
 					"attackDamage": 4,
-					"defense": 2,
-					"cooldown": -2
+					"cooldown": -1
 				},
 				"costs": {
-					"scrapMetal": 25,
-					"medicalSupplies": 10,
+					"scrapMetal": 20,
+					"ammunition": 10,
 					"electronicComponents": 5
 				}
 			}
@@ -278,19 +278,20 @@ var unit: Dictionary = {
 	},
 	"Medic Survivor": {
 		"name": "Medic Survivor",
-		"description": "A trained medic providing healing and support to wounded survivors.",
+		"description": "Provides healing support to other units. Equipped with a melee weapon.",
 		"stats": {
 			"health": 2,
-			"attackDamage": 0,
+			"attackDamage": 1,
 			"defense": 0,
 			"cooldown": 2,
-			"movementSpeed": 2
+			"movementSpeed": 2,
+			"attackRange": 1
 		},
 		"specialAbility": "Medical Aid - Heals 2 health to adjacent survivors once per turn (Cooldown: 2 turns).",
 		"diceRequired": {
 			"attackDice": 0,
 			"defenseDice": 0,
-			"supportDice": 1
+			"supportDice": 2
 		},
 		"upgrades": {
 			"Tier 2 (Veteran Medic Survivor)": {
@@ -318,18 +319,19 @@ var unit: Dictionary = {
 	},
 	"Engineer": {
 		"name": "Engineer",
-		"description": "Repairs and enhances defensive structures.",
+		"description": "Repairs and fortifies defenses. Equipped with a shotgun.",
 		"stats": {
 			"health": 2,
-			"attackDamage": 0,
+			"attackDamage": 3,
 			"defense": 0,
 			"cooldown": 2,
-			"movementSpeed": 2
+			"movementSpeed": 2,
+			"attackRange": 5
 		},
 		"specialAbility": "Structural Reinforcement - Repairs and strengthens nearby defenses (Cooldown: 2 turns).",
 		"diceRequired": {
-			"attackDice": 0,
-			"defenseDice": 0,
+			"attackDice": 1,
+			"defenseDice": 1,
 			"supportDice": 1
 		},
 		"upgrades": {
@@ -339,8 +341,8 @@ var unit: Dictionary = {
 					"cooldown": -1
 				},
 				"costs": {
-					"scrapMetal": 15,
-					"toolkits": 5
+					"scrapMetal": 10,
+					"tools": 5
 				}
 			},
 			"Tier 3 (Elite Engineer)": {
@@ -349,8 +351,8 @@ var unit: Dictionary = {
 					"cooldown": -2
 				},
 				"costs": {
-					"scrapMetal": 25,
-					"toolkits": 5,
+					"scrapMetal": 20,
+					"tools": 10,
 					"electronicComponents": 5
 				}
 			}
@@ -358,13 +360,14 @@ var unit: Dictionary = {
 	},
 	"Field Medic": {
 		"name": "Field Medic",
-		"description": "An advanced medic providing comprehensive healing and support to survivors.",
+		"description": "Provides advanced healing support to other units. Equipped with a melee weapon.",
 		"stats": {
 			"health": 3,
-			"attackDamage": 0,
+			"attackDamage": 1,
 			"defense": 0,
 			"cooldown": 2,
-			"movementSpeed": 2
+			"movementSpeed": 2,
+			"attackRange": 1
 		},
 		"specialAbility": "Advanced Medical Aid - Heals 3 health to adjacent survivors once per turn (Cooldown: 2 turns).",
 		"diceRequired": {
@@ -379,7 +382,7 @@ var unit: Dictionary = {
 					"cooldown": -1
 				},
 				"costs": {
-					"scrapMetal": 20,
+					"scrapMetal": 10,
 					"medicalSupplies": 5
 				}
 			},
@@ -389,8 +392,8 @@ var unit: Dictionary = {
 					"cooldown": -2
 				},
 				"costs": {
-					"scrapMetal": 30,
-					"medicalSupplies": 5,
+					"scrapMetal": 20,
+					"medicalSupplies": 10,
 					"electronicComponents": 5
 				}
 			}

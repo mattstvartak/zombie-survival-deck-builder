@@ -1,8 +1,6 @@
 extends Node2D
 
-var title: String = ""
-var description: String = ""
-var type: String = ""
+var info: Dictionary
 var prev_loc: Vector2 = self.global_position
 var prev_scale: Vector2 = self.scale
 var prev_rot: float = self.rotation
@@ -13,6 +11,9 @@ var selected: bool = false
 var target_position: Vector2 = self.position
 var params = PhysicsPointQueryParameters2D.new()
 
+@onready var title: String = info.name
+@onready var description: String = info.description
+@onready var type: String = info.type
 @onready var title_node: Label = $CardFront/Title
 @onready var description_node: Label = $CardFront/Description
 # Called when the node enters the scene tree for the first time.
@@ -38,12 +39,14 @@ func _on_mouse_exited():
 		#pass # Replace with function body.
 
 func _on_input_event(_event):
-	if Input.is_action_pressed("click") and is_hovering:
+	if Input.is_action_pressed("click") and is_hovering and GameController.active_turn:
 		can_hover = false
-		if !selected:
+		if !selected and GameController.selected_card.is_empty():
 			selected = true
+			GameController.selected_card = self.info
 			AnimationController.card_select(self)
 		else:
 			selected = false
+			GameController.selected_card.clear()
 			AnimationController.card_deselect(self)
 	pass # Replace with function body.

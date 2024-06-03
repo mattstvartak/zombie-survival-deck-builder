@@ -1,10 +1,10 @@
 [gd_scene load_steps=5 format=3 uid="uid://ckrisimxnt6xe"]
 
-[ext_resource type="Texture2D" uid="uid://5f8kubfxyw7v" path="res://assets/sprites/1bit-kenney.png" id="1_0kjp7"]
 [ext_resource type="TileSet" uid="uid://dohm0ra6t52gg" path="res://assets/sprites/base_tileset.tres" id="1_gvqnk"]
+[ext_resource type="Texture2D" uid="uid://5f8kubfxyw7v" path="res://assets/sprites/1bit-kenney.png" id="2_ejww3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q12nb"]
-texture = ExtResource("1_0kjp7")
+texture = ExtResource("2_ejww3")
 1:0/0 = 0
 2:0/0 = 0
 3:0/0 = 0
