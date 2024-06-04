@@ -1,5 +1,6 @@
 extends Node2D
 
+var info
 var stats
 var navigation_path = []
 var target_position = Vector2i()
@@ -21,7 +22,8 @@ func get_threat_positions() -> Array[Vector2i]:
 func get_nearest_threat() -> Vector2i:
 	var threats: Array[Vector2i] = get_threat_positions()
 	var cur_pos: Vector2 = current_grid_position
-	threats.append_array(LevelController.stronghold_positions)
+	for z in GameController.zombie_queue:
+		threats.push_back(z.current_grid_position)
 	var nearest_position = threats[0]
 	var nearest_distance = cur_pos.distance_to(nearest_position)
 	
@@ -34,15 +36,23 @@ func get_nearest_threat() -> Vector2i:
 	
 func move():
 	var threat = get_nearest_threat()
-	var path_taken = LevelController.navigate_to(current_grid_position, threat)
-	path_taken = path_taken.slice(0, stats.movementSpeed + 1 if path_taken.size() >= stats.movementSpeed else path_taken.size() + 1)
+	var path_taken: Array = LevelController.navigate_to(current_grid_position, threat, current_grid_position)
+	path_taken.pop_back()
+	path_taken = path_taken.slice(0, info.stats.movementSpeed + 1 if path_taken.size() >= info.stats.movementSpeed else path_taken.size() + 1)
 	for cell in path_taken:
 		var target = LevelController.astargrid.get_point_position(cell)
 		#if path_taken.find(cell,0) != path_taken.size() - 1:
 		self.position = target
-		current_grid_position = cell
+		set_active_location(cell)
 		await get_tree().create_timer(.2).timeout
-
+		
+func set_active_location(loc: Vector2i) -> void:
+	var old_loc = LevelController.occupied_spaces.find(current_grid_position);
+	LevelController.occupied_spaces.remove_at(old_loc)
+	if !loc in LevelController.occupied_spaces:
+		current_grid_position = loc
+		LevelController.occupied_spaces.push_back(current_grid_position)
+		
 func _on_active_turn_change():
 	move()
 #func _on_MovementTimer_timeout():

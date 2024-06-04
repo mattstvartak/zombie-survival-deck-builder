@@ -8,6 +8,8 @@ var path_taken_atlas_coords  = Vector2i(22, 4)
 var stronghold_positions: Array[Vector2i] =[]
 var tilemap_size: Vector2i
 var astargrid: AStarGrid2D = AStarGrid2D.new()
+var selected_grid_position
+var occupied_spaces: Array = []
 
 func load_level():
 	Level.position = Vector2(14,14)
@@ -34,7 +36,11 @@ func is_cell_solid(cell: Vector2i):
 func is_cell_stronghold(cell: Vector2i) -> bool:
 	return Level.get_cell_tile_data(main_layer, cell).get_custom_data("is_stronghold")
 
-func navigate_to(a: Vector2i, b: Vector2i):
+func navigate_to(a: Vector2i, b: Vector2i, loc: Vector2i):
+	astargrid.fill_solid_region(Rect2i(0,0,24,24), false)
+	for i in occupied_spaces:
+		#
+		if i != loc: astargrid.set_point_solid(i, true)
 	return astargrid.get_id_path(Vector2i(a.x,a.y), Vector2i(b.x,b.y))
 
 #func _unhandled_input(event):
@@ -45,7 +51,7 @@ func get_grid_position_from_mouse():
 	var mouse_position = get_viewport().get_mouse_position()
 	var grid_x = int(mouse_position.x / GameController.CELL_SIZE)
 	var grid_y = int(mouse_position.y / GameController.CELL_SIZE)
-	return Vector2(grid_x, grid_y)
+	return Vector2i(grid_x, grid_y)
 
 # Function to check if the mouse is hovering over a valid grid location
 func is_mouse_hovering_over_grid():
@@ -55,8 +61,12 @@ func is_mouse_hovering_over_grid():
 	return false
 
 func _input(event):
-	if event is InputEventMouseMotion and GameController.active_turn:
-		if is_mouse_hovering_over_grid() and LevelController.selected_grid_position != get_grid_position_from_mouse():
-		print("Mouse is hovering over grid position: ", grid_position)
-	else:
-		print("Mouse is not hovering over a valid grid position.")
+	if event is InputEventMouseMotion and GameController.can_place_card() and is_mouse_hovering_over_grid() and self.selected_grid_position != get_grid_position_from_mouse():
+		self.selected_grid_position = get_grid_position_from_mouse()
+	elif !is_mouse_hovering_over_grid():
+		selected_grid_position = null
+
+	if Input.is_action_just_pressed("click") and GameController.can_place_card() and typeof(selected_grid_position) == TYPE_VECTOR2I:
+		print(selected_grid_position)
+		GameController.spawn_pawn(selected_grid_position)
+

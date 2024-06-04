@@ -18,6 +18,7 @@ var current_grid_position: Vector2i
 
 func _ready():
 	var spawn = LevelController.astargrid.get_point_position(current_grid_position)
+	set_active_location(current_grid_position)
 	self.position = Vector2i(spawn.x, spawn.y)
 	GameController.connect("active_turn_change", Callable(self, "_on_active_turn_change"))
 	#movement_timer.connect("timeout", self, "_on_MovementTimer_timeout")
@@ -39,18 +40,26 @@ func get_nearest_threat() -> Vector2i:
 			nearest_distance = distance
 	return nearest_position
 	
-func move():
+func move() -> void:
 	var threat = get_nearest_threat()
-	var path_taken = LevelController.navigate_to(current_grid_position, threat)
+	var path_taken = LevelController.navigate_to(current_grid_position, threat, current_grid_position)
+	path_taken.pop_back()
 	path_taken = path_taken.slice(0, stats.movementSpeed + 1 if path_taken.size() >= stats.movementSpeed else path_taken.size() + 1)
 	for cell in path_taken:
 		var target = LevelController.astargrid.get_point_position(cell)
 		#if path_taken.find(cell,0) != path_taken.size() - 1:
 		self.position = target
-		current_grid_position = cell
+		set_active_location(cell)
 		await get_tree().create_timer(.2).timeout
+		
+func set_active_location(loc: Vector2i) -> void:
+	var old_loc = LevelController.occupied_spaces.find(current_grid_position);
+	LevelController.occupied_spaces.remove_at(old_loc)
+	if !loc in LevelController.occupied_spaces:
+		current_grid_position = loc
+		LevelController.occupied_spaces.push_back(current_grid_position)
 
-func _on_active_turn_change():
+func _on_active_turn_change() -> void:
 	move()
 #func _on_MovementTimer_timeout():
 	#if active_turn == 1 and navigation_path.size() > 0:

@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dhshlj8p85h1q"]
+[gd_scene load_steps=5 format=3 uid="uid://dhshlj8p85h1q"]
 
 [ext_resource type="Texture2D" uid="uid://dadxuji76ajje" path="res://assets/sprites/card-blank.png" id="2_aqq5v"]
+[ext_resource type="PackedScene" uid="uid://cymq8r7nl2s0c" path="res://scenes/Dice.tscn" id="3_3qdv7"]
 [ext_resource type="FontFile" uid="uid://dnh5oycnxbhl4" path="res://assets/fonts/alagard.ttf" id="3_5klbt"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_gwrkq"]
@@ -105,8 +106,7 @@ scale = Vector2(0.175, 0.175)
 texture = ExtResource("2_aqq5v")
 
 [node name="loc_deck" type="Node2D" parent="."]
-visible = false
-position = Vector2(409, 52)
+position = Vector2(234, -92)
 
 [node name="0" type="Sprite2D" parent="loc_deck"]
 scale = Vector2(0.15, 0.15)
@@ -137,7 +137,7 @@ scale = Vector2(0.15, 0.15)
 texture = ExtResource("2_aqq5v")
 
 [node name="false_deck" type="Node2D" parent="."]
-position = Vector2(409, 52)
+position = Vector2(234, -92)
 
 [node name="0" type="Sprite2D" parent="false_deck"]
 position = Vector2(18, 0)
@@ -198,12 +198,26 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="EndTurnButton" type="Button" parent="."]
-offset_left = 385.0
-offset_top = 96.0
-offset_right = 464.0
-offset_bottom = 115.0
+offset_left = 374.0
+offset_top = 17.0
+offset_right = 453.0
+offset_bottom = 36.0
 theme_override_fonts/font = ExtResource("3_5klbt")
 theme_override_font_sizes/font_size = 9
 shortcut_feedback = false
 shortcut_in_tooltip = false
 text = "END TURN"
+
+[node name="RollDiceButton" type="Button" parent="."]
+offset_left = 374.0
+offset_top = 42.0
+offset_right = 453.0
+offset_bottom = 61.0
+theme_override_fonts/font = ExtResource("3_5klbt")
+theme_override_font_sizes/font_size = 9
+shortcut_feedback = false
+shortcut_in_tooltip = false
+text = "ROLL DICE"
+
+[node name="Dice" parent="." instance=ExtResource("3_3qdv7")]
+position = Vector2(376, 68)

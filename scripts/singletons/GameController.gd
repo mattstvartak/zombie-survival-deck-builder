@@ -4,15 +4,17 @@ const CELL_SIZE = 14
 
 var Card = preload("res://scenes/Card.tscn")
 var Zombie = preload("res://scenes/Zombie.tscn")
+var Pawn = preload("res://scenes/Pawn.tscn") 
 var active_deck: Array = CardDictionary.default_deck
 var active_hand: Array = []
 var active_space: Vector2i
-var selected_card: Dictionary
+var selected_card: Array = []
 var turn_count: int = 0
 var active_turn: bool = true # 0 Player, 1 AI
 var hand_size: int = 7
 var use_default_deck = true
 var zombie_queue = []
+var pawn_queue = []
 var deck: Dictionary = {
 	"size": 40,
 	"unit": 15,
@@ -38,16 +40,19 @@ var waves = [
 ]
 
 @onready var EndTurnButton = get_tree().root.get_node("Main/EndTurnButton")
+@onready var RollDiceButton = get_tree().root.get_node("Main/RollDiceButton")
+@onready var Dice = get_tree().root.get_node("Main/Dice")
 
 signal turn_change
 signal active_turn_change
-
+	
 func _ready():
 	await LevelController.load_level()
 	setup_deck()
 	connect("turn_change", Callable(self, "_on_turn_change"))
 	connect("active_turn_change", Callable(self, "_on_active_turn_change"))
 	EndTurnButton.pressed.connect(self._on_end_turn_pressed)
+	RollDiceButton.pressed.connect(Dice.roll)
 	spawn_zombies()
 
 func setup_deck():
@@ -112,7 +117,7 @@ func draw_card(i) -> void:
 	active_hand.append(new_card)
 	active_deck.remove_at(i)
 	# Add scene
-	get_tree().root.add_child.call_deferred(new_card, true)
+	CardContainer.add_child.call_deferred(new_card, true)
 
 # Draws a full hand
 func draw_hand() -> void:
@@ -151,6 +156,17 @@ func spawn_zombie(i: int, type: String) -> void:
 	#if zombie_queue.size() == 1:
 		#zombie.start_movement()
 
+func spawn_pawn(loc):
+	if !selected_card.is_empty():
+		print(GameController.selected_card[0])
+		var new_pawn = Pawn.instantiate()
+		new_pawn.name = GameController.selected_card[0].info.name
+		new_pawn.info = GameController.selected_card[0].info
+		new_pawn.stats = GameController.selected_card[0].info.stats
+		new_pawn.current_grid_position = loc
+		PawnContainer.add_child(new_pawn)
+		pawn_queue.append(new_pawn)
+
 # Get a random position on the outer edge of the grid
 func get_random_edge_position():
 	var edge_positions = []
@@ -167,6 +183,9 @@ func spawn_zombies():
 		for zombie in waves[active_wave][zombie_type]:
 			for i in range(zombie):
 				spawn_zombie(i, zombie_type)
+				
+func can_place_card() -> bool:
+	return !self.selected_card.is_empty() and self.active_turn
 
 func _on_end_turn_pressed():
 	emit_signal("active_turn_change")	
@@ -174,3 +193,4 @@ func _on_end_turn_pressed():
 func _on_active_turn_change():
 	active_turn = !active_turn		
 	turn_count+=1
+

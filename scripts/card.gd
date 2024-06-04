@@ -38,15 +38,23 @@ func _on_mouse_exited():
 		AnimationController.card_hover("exit", self)
 		#pass # Replace with function body.
 
+func select_self():
+	selected = true
+	GameController.selected_card.append(self)
+	AnimationController.card_select(self)
+
+func deselect_self():
+	selected = false
+	GameController.selected_card.clear()
+	AnimationController.card_deselect(self)
+	
 func _on_input_event(_event):
 	if Input.is_action_pressed("click") and is_hovering and GameController.active_turn:
 		can_hover = false
-		if !selected and GameController.selected_card.is_empty():
-			selected = true
-			GameController.selected_card = self.info
-			AnimationController.card_select(self)
-		else:
-			selected = false
-			GameController.selected_card.clear()
-			AnimationController.card_deselect(self)
+		if !selected:
+			if !GameController.selected_card.is_empty():
+				GameController.selected_card[0].deselect_self()
+			select_self()
+		elif selected and !GameController.selected_card.is_empty():
+			deselect_self()
 	pass # Replace with function body.

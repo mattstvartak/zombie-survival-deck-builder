@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://cymq8r7nl2s0c"]
+
+[ext_resource type="Script" path="res://scenes/Dice.gd" id="1_yq8i1"]
+[ext_resource type="Texture2D" uid="uid://5f8kubfxyw7v" path="res://assets/sprites/1bit-kenney.png" id="2_25wlr"]
+
+[node name="Dice" type="Node2D"]
+script = ExtResource("1_yq8i1")
+
+[node name="Dice_01" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(7, 7)
+texture = ExtResource("2_25wlr")
+region_enabled = true
+region_rect = Rect2(529, 129, 14, 14)
+
+[node name="Dice_02" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(23, 7)
+texture = ExtResource("2_25wlr")
+region_enabled = true
+region_rect = Rect2(673, 161, 14, 14)
+
+[node name="Dice_03" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(39, 7)
+texture = ExtResource("2_25wlr")
+region_enabled = true
+region_rect = Rect2(625, 65, 14, 14)
+
+[node name="Dice_04" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(53, 7)
+texture = ExtResource("2_25wlr")
+region_enabled = true
+region_rect = Rect2(529, 129, 14, 14)
+
+[node name="Dice_05" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(69, 7)
+texture = ExtResource("2_25wlr")
+region_enabled = true
+region_rect = Rect2(673, 161, 14, 14)
